@@ -1,39 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { GET_ALL_PRODUCTS_REQUEST } from './action/types'
-import { fetchAllProduct } from './action/action'
+// import { GET_ALL_PRODUCTS_REQUEST } from './action/types'
+import { fetchALlProduct, increment} from './redux/slices/userSlice'
+
 
 function App() {
 
-  const couter = useSelector((state) => state.user.listProducts)
-  const [count, setCount] = useState(0)
-  const [products, setProducts] = useState(couter)
+  const listUsers = useSelector((state) => state.user.listUsers)
   const dispatch = useDispatch();
-  console.log(couter);
+  // console.log(couter);
+  const count = useSelector((state) => state.user.value)
 
-
-  function getProducts() {
-    dispatch(fetchAllProduct())
-    setProducts(couter)
+    useEffect(() => {
+      // dispatch(fetchAllProduct())
+      dispatch(fetchALlProduct())
+    }, [])
+  function incrementCount() {
+    dispatch(increment())
   }
-
   return (
     <>
       <div>
         <ul>
-          {products.map((product, index) => {
+          {listUsers.map((user, index) => {
             return (
-              <li key={product.id}>{product.name} <span style={{cursor: 'pointer', color: 'red'}}> delete</span></li>
+              <li key={user.id}>{user.name} <span style={{ cursor: 'pointer', color: 'red' }}> delete</span></li>
             );
           })}
         </ul>
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => getProducts()}>
+        <button onClick={() => incrementCount()}>
           count is {count}
         </button>
         <p>
